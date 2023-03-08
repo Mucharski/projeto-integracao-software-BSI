@@ -1,0 +1,1 @@
+﻿INSERT INTO Products (Name, Description, Price) VALUES (@Name, @Description, @Price);
