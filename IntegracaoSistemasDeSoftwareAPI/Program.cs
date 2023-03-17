@@ -1,6 +1,8 @@
-using IntegracaoSistemasDeSoftwareAPI.Queries;
-using IntegracaoSistemasDeSoftwareAPI.Repository;
-using IntegracaoSistemasDeSoftwareAPI.Repository.Interfaces;
+using Admin.Domain.Handlers;
+using Admin.Domain.Handlers.Contracts;
+using Admin.Domain.Repositories;
+using Admin.Infra.Queries;
+using Admin.Infra.Repository;
 
 var builder = WebApplication.CreateBuilder(args);
 InjectDependencies(builder.Services);
@@ -31,6 +33,7 @@ app.Run();
 
 void InjectDependencies(IServiceCollection services)
 {
+    services.AddScoped<IProductHandler, ProductHandler>();
     services.AddScoped<IProductRepository, ProductRepository>();
     services.AddScoped<ProductQueries, ProductQueries>();
 }

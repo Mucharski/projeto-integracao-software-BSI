@@ -1,11 +1,11 @@
-﻿using Dapper;
-using IntegracaoSistemasDeSoftwareAPI.Commands.Input;
-using IntegracaoSistemasDeSoftwareAPI.Models;
-using IntegracaoSistemasDeSoftwareAPI.Queries;
-using IntegracaoSistemasDeSoftwareAPI.Repository.Interfaces;
+﻿using Admin.Domain.Commands.Input;
+using Admin.Domain.Entities;
+using Admin.Domain.Repositories;
+using Admin.Infra.Queries;
+using Dapper;
 using Microsoft.Data.Sqlite;
 
-namespace IntegracaoSistemasDeSoftwareAPI.Repository;
+namespace Admin.Infra.Repository;
 
 public class ProductRepository : IProductRepository
 {
@@ -45,7 +45,7 @@ public class ProductRepository : IProductRepository
         {
             await _connection.OpenAsync();
 
-            return (await _connection.QueryAsync<Product>(_queries.ListProducts())).ToList();
+            return Enumerable.ToList((await _connection.QueryAsync<Product>(_queries.ListProducts())));
         }
         catch (Exception ex)
         {

@@ -1,7 +1,9 @@
-﻿using IntegracaoSistemasDeSoftwareAPI.Commands.Input;
-using IntegracaoSistemasDeSoftwareAPI.Commands.Output;
-using IntegracaoSistemasDeSoftwareAPI.Models;
-using IntegracaoSistemasDeSoftwareAPI.Repository.Interfaces;
+﻿using Admin.Domain.Commands.Input;
+using Admin.Domain.Commands.Output;
+using Admin.Domain.Entities;
+using Admin.Domain.Handlers.Contracts;
+using Admin.Domain.Repositories;
+using Global.Shared.Generics;
 using Microsoft.AspNetCore.Mvc;
 
 namespace IntegracaoSistemasDeSoftwareAPI.Controllers;
@@ -10,92 +12,73 @@ namespace IntegracaoSistemasDeSoftwareAPI.Controllers;
 [Route("[controller]")]
 public class ProductController : ControllerBase
 {
-    private readonly IProductRepository _repository;
-
-    public ProductController(IProductRepository repository)
-    {
-        _repository = repository;
-    }
-
     [HttpPost]
     [Route("Create")]
-    public async Task<IActionResult> Create([FromBody] CreateProductCommand command)
+    public async Task<ActionResult<GenericCommandResult>> Create([FromServices] IProductHandler handler,
+        [FromBody] CreateProductCommand command)
     {
         try
         {
-            Product product = new(command);
+            GenericCommandResult handleResult = await handler.Handle(command);
 
-            int rowsAffected = await _repository.Create(product);
-
-            if (rowsAffected == 0)
-            {
-                return BadRequest(new
-                    CreateProductCommandResult("Houve um erro ao adicionar o produto"));
-            }
-
-            return Ok(new CreateProductCommandResult("Produto adicionado com sucesso!"));
+            return Created("Criado!", handleResult);
         }
         catch (Exception ex)
         {
+            ex.Data.Add("Product(Create)", command);
             throw;
         }
     }
 
     [HttpGet]
     [Route("List")]
-    public async Task<IActionResult> List()
+    public async Task<IActionResult> List([FromServices] IProductHandler handler)
     {
         try
         {
-            List<Product> productsList = await _repository.List();
+            GenericCommandResult handleResult = await handler.Handle(new ListProductsCommand());
 
-            return Ok(new ListProductsCommandResult(productsList,
-                "Lista retornada com sucesso!"));
+            return Ok(handleResult);
         }
         catch (Exception ex)
         {
+            ex.Data.Add("Product(List)", new { });
             throw;
         }
     }
 
     [HttpPut]
     [Route("Update")]
-    public async Task<IActionResult> Update([FromBody] UpdateProductCommand command)
+    public async Task<IActionResult> Update([FromServices] IProductHandler handler,
+        [FromBody] UpdateProductCommand command)
     {
         try
         {
-            int rowsAffected = await _repository.Update(command);
+            GenericCommandResult handleResult = await handler.Handle(command);
 
-            if (rowsAffected == 0)
-            {
-                return BadRequest(new UpdateProductCommandResult("Não foi possível atualizar o registro."));
-            }
-
-            return Ok(new UpdateProductCommandResult("Registro atualizado com sucesso"));
+            return Ok(handleResult);
         }
         catch (Exception ex)
         {
+            ex.Data.Add("Product(Update)", command);
             throw;
         }
     }
 
     [HttpDelete]
     [Route("Delete")]
-    public async Task<IActionResult> Delete([FromQuery] int id)
+    public async Task<IActionResult> Delete([FromServices] IProductHandler handler,
+        [FromQuery] int id)
     {
         try
         {
-            int rowsAffected = await _repository.Delete(id);
+            GenericCommandResult handleResult = await handler.Handle(new DeleteProductCommand(id));
 
-            if (rowsAffected == 0)
-            {
-                return BadRequest(new DeleteProductCommandResult("Não foi possível excluir o registro"));
-            }
-
-            return Ok(new DeleteProductCommandResult("Produto excluído com sucesso"));
+            return Ok(handleResult);
         }
         catch (Exception ex)
         {
+            ex.Data.Add("Product(Delete)", id);
             throw;
         }
     }

@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace IntegracaoSistemasDeSoftwareAPI.Commands.Input;
+namespace Admin.Domain.Commands.Input;
 
 public class CreateProductCommand
 {

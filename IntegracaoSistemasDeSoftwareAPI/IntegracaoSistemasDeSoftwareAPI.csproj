@@ -7,10 +7,20 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="Dapper" Version="2.0.123" />
         <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="7.0.3" />
-        <PackageReference Include="Microsoft.Data.Sqlite" Version="7.0.3" />
         <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="Commands\Input" />
+      <Folder Include="Commands\Output" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\Admin.Domain\Admin.Domain.csproj" />
+      <ProjectReference Include="..\Admin.Infra\Admin.Infra.csproj" />
+      <ProjectReference Include="..\Admin.Shared\Admin.Shared.csproj" />
+      <ProjectReference Include="..\Global.Shared\Global.Shared.csproj" />
     </ItemGroup>
 
 </Project>

@@ -1,8 +1,8 @@
-﻿namespace IntegracaoSistemasDeSoftwareAPI.Queries;
+﻿namespace Admin.Infra.Queries;
 
 public class ProductQueries
 {
-    private readonly string BasePath = "C:/Users/igorm/Documents/Dev/IntegracaoSistemasDeSoftwareAPI/IntegracaoSistemasDeSoftwareAPI/Queries/Files";
+    private readonly string BasePath = "C:/Users/igorm/Documents/Dev/IntegracaoSistemasDeSoftwareAPI/Admin.Infra/Queries/Files";
 
     public string CreateProduct()
     {

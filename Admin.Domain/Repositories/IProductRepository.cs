@@ -1,7 +1,7 @@
-﻿using IntegracaoSistemasDeSoftwareAPI.Commands.Input;
-using IntegracaoSistemasDeSoftwareAPI.Models;
+﻿using Admin.Domain.Commands.Input;
+using Admin.Domain.Entities;
 
-namespace IntegracaoSistemasDeSoftwareAPI.Repository.Interfaces;
+namespace Admin.Domain.Repositories;
 
 public interface IProductRepository
 {

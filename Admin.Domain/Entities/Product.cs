@@ -1,7 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
-using IntegracaoSistemasDeSoftwareAPI.Commands.Input;
+﻿using Admin.Domain.Commands.Input;
 
-namespace IntegracaoSistemasDeSoftwareAPI.Models;
+namespace Admin.Domain.Entities;
 
 public class Product
 {
